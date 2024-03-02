@@ -1,16 +1,14 @@
-function checkPalindrome(string) {
+function getPalindromeCheck(string) {
   string = string.toLowerCase().replaceAll(' ', '');
-  let lengthString = string.length - 1;
-  for(let i = 0; i <= lengthString; i++) {
-    if (string[i] !== string[lengthString]) {
+  for(let i = 0; i <= (string.length - 1 - i); i++) {
+    if (string[i] !== string[string.length - 1 - i]) {
       return false;
     }
-    lengthString--;
   }
   return true;
 }
 
-console.log(checkPalindrome('топот')); // true
-console.log(checkPalindrome('ДовОд')); // true
-console.log(checkPalindrome('Кекс')); // false
-console.log(checkPalindrome('Лёша на полке клопа нашёл ')); // true
+getPalindromeCheck('топот'); // true
+getPalindromeCheck('ДовОд'); // true
+getPalindromeCheck('Кекс'); // false
+getPalindromeCheck('Лёша на полке клопа нашёл '); // true
