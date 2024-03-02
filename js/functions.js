@@ -27,3 +27,26 @@ getPalindromeCheck2('топот'); // true
 getPalindromeCheck2('ДовОд'); // true
 getPalindromeCheck2('Кекс'); // false
 getPalindromeCheck2('Лёша на полке клопа нашёл '); // true
+
+function getNumber(string) {
+  let newString = '';
+  if (typeof(string) === 'number') {
+    string = String(string);
+  }
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] >= '0' && string[i] <= '9') {
+      newString += string[i];
+    }
+  }
+  return parseInt(newString, 10);
+}
+
+getNumber('2023 год'); // 2023
+getNumber('ECMAScript 2022'); // 2022
+getNumber('1 кефир, 0.5 батона'); // 105
+getNumber('агент 007'); // 7
+getNumber('а я томат'); // NaN
+getNumber(2023); // 2023
+getNumber(-1); // 1
+getNumber(1.5); // 15
+
