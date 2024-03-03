@@ -50,3 +50,21 @@ getNumber(2023); // 2023
 getNumber(-1); // 1
 getNumber(1.5); // 15
 
+function returnString(string, minLength, stringSymbol) {
+  const fullBlock = Math.floor((minLength - string.length) / stringSymbol.length);
+  const remainderSymbol = (minLength - string.length) % stringSymbol.length;
+  let newString = '';
+  for (let i = 0; i < remainderSymbol; i++) {
+    newString += stringSymbol[i];
+  }
+  for (let i = 0; i < fullBlock; i++) {
+    newString += stringSymbol;
+  }
+  return newString + string;
+}
+
+returnString('1', 2, '0'); // '01'
+returnString('1', 4, '0'); // '0001'
+returnString('q', 4, 'werty'); // 'werq'
+returnString('q', 4, 'we'); // 'wweq'
+returnString('qwerty', 4, '0'); // 'qwerty'
