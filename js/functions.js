@@ -1,4 +1,4 @@
-function getPalindromeCheck(string) {
+const getPalindromeCheck = (string) => {
   string = string.toLowerCase().replaceAll(' ', '');
   for(let i = 0; i <= (string.length - 1 - i); i++) {
     if (string[i] !== string[string.length - 1 - i]) {
@@ -6,14 +6,14 @@ function getPalindromeCheck(string) {
     }
   }
   return true;
-}
+};
 
 getPalindromeCheck('топот'); // true
 getPalindromeCheck('ДовОд'); // true
 getPalindromeCheck('Кекс'); // false
 getPalindromeCheck('Лёша на полке клопа нашёл '); // true
 
-function getPalindromeCheck2(string) {
+const getPalindromeCheck2 = (string) => {
   string = string.toLowerCase().replaceAll(' ', '');
   for(let i = 1; i <= (string.length - 1); i++) {
     if (string[i - 1] !== string.at(-i)) {
@@ -21,14 +21,14 @@ function getPalindromeCheck2(string) {
     }
   }
   return true;
-}
+};
 
 getPalindromeCheck2('топот'); // true
 getPalindromeCheck2('ДовОд'); // true
 getPalindromeCheck2('Кекс'); // false
 getPalindromeCheck2('Лёша на полке клопа нашёл '); // true
 
-function getNumber(string) {
+const getNumber = (string) => {
   let newString = '';
   if (typeof(string) === 'number') {
     string = String(string);
@@ -39,7 +39,7 @@ function getNumber(string) {
     }
   }
   return parseInt(newString, 10);
-}
+};
 
 getNumber('2023 год'); // 2023
 getNumber('ECMAScript 2022'); // 2022
@@ -50,7 +50,7 @@ getNumber(2023); // 2023
 getNumber(-1); // 1
 getNumber(1.5); // 15
 
-function returnString(string, minLength, stringSymbol) {
+const returnString = (string, minLength, stringSymbol) => {
   const fullBlock = Math.floor((minLength - string.length) / stringSymbol.length);
   const remainderSymbol = (minLength - string.length) % stringSymbol.length;
   let newString = '';
@@ -61,10 +61,30 @@ function returnString(string, minLength, stringSymbol) {
     newString += stringSymbol;
   }
   return newString + string;
-}
+};
 
 returnString('1', 2, '0'); // '01'
 returnString('1', 4, '0'); // '0001'
 returnString('q', 4, 'werty'); // 'werq'
 returnString('q', 4, 'we'); // 'wweq'
 returnString('qwerty', 4, '0'); // 'qwerty'
+
+// кексограмм
+const checkLengthString = (string, lengthString) => string.length <= lengthString;
+
+checkLengthString('проверяемая строка', 20); // true
+checkLengthString('проверяемая строка', 18); // true
+checkLengthString('проверяемая строка', 10); // false
+
+// кексобукинг
+const getRandomNumber = (startNumber, endNumber, remainderSymbol) => {
+  if (startNumber < 0 || endNumber < 0 || remainderSymbol < 0) {
+    return NaN;
+  }
+  if (startNumber >= endNumber) {
+    return NaN;
+  }
+  return Number((startNumber + Math.random() * (endNumber - startNumber)).toFixed(remainderSymbol));
+};
+
+console.log(getRandomNumber(5, 10, 4)); // Результат: число с плавающей точкой из диапазона "от...до" с указанным "количеством знаков после запятой"
