@@ -81,10 +81,11 @@ const getRandomNumber = (startNumber, endNumber, remainderSymbol) => {
   if (startNumber < 0 || endNumber < 0 || remainderSymbol < 0) {
     return NaN;
   }
-  if (startNumber >= endNumber) {
-    return NaN;
-  }
-  return Number((startNumber + Math.random() * (endNumber - startNumber)).toFixed(remainderSymbol));
+  return (startNumber >= endNumber) ? NaN :
+    Number((startNumber + Math.random() * (endNumber - startNumber))
+      .toFixed(remainderSymbol));
 };
 
-console.log(getRandomNumber(5, 10, 4)); // Результат: число с плавающей точкой из диапазона "от...до" с указанным "количеством знаков после запятой"
+getRandomNumber(5, 10, 4);
+getRandomNumber(11, 10, 4);
+getRandomNumber(11, 12, 4);
