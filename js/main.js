@@ -1,3 +1,5 @@
+'use strict';
+
 const NAMES = [
   'Андрей',
   'Владимир',
@@ -52,7 +54,7 @@ const DESCRIPTION_PHOTO = [
   '10000 метров над землей',
   'Выстубление хора',
   'Эта машина выглядит как настоящий зверь!',
-  'Домашние апочки с подсветкой это очень удобно',
+  'Домашние тапочки с подсветкой это очень удобно',
   'Очень уютный отель с пальмами!',
   'Очень полужный завтрак',
   'Загадочный закат над морем',
@@ -63,6 +65,8 @@ const DESCRIPTION_PHOTO = [
 
 const MIN_LIKE = 15;
 const MAX_LIKE = 200;
+const MIN_AVATAR = 1;
+const MAX_AVATAR = 6;
 
 const getRandomInteder = (min, max) => {
   const lower = Math.ceil(Math.max(min, max));
@@ -71,11 +75,11 @@ const getRandomInteder = (min, max) => {
   return Math.floor(result);
 };
 
-const createRandomIdFromRangeGenerator = (max, min) => {
+const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
   return function () {
     let currentValue = getRandomInteder(min, max);
-    if (previousValues.length <= (max - min + 1)) {
+    if (previousValues.length >= (max - min + 1)) {
       return null;
     }
     while (previousValues.includes(currentValue)) {
@@ -86,21 +90,28 @@ const createRandomIdFromRangeGenerator = (max, min) => {
   };
 };
 
-const photoId = createRandomIdFromRangeGenerator(1, 25);
+const photoId = createRandomIdFromRangeGenerator(0, 25);
+const imageId = createRandomIdFromRangeGenerator(0, 25);
+const commentId = createRandomIdFromRangeGenerator(0, 200);
+
+const getRandomArrayElement = (elements) => elements[getRandomInteder(1, (elements.length - 1))];
 
 const getDescriptionPhoto = () => (
   {
     id: photoId(),
-    url: '',
-    description: '',
+    url: 'photos/' + imageId() + '.jpg',
+    description: getRandomArrayElement(DESCRIPTION_PHOTO),
     likes: getRandomInteder(MIN_LIKE, MAX_LIKE),
     comments: [{
-      id: '',
-      avatar: '',
-      message: '',
-      name: ''
+      id: commentId(),
+      avatar: 'img/avatar-' + getRandomInteder(MIN_AVATAR, MAX_AVATAR) + '.svg',
+      message: getRandomArrayElement(MESSAGES),
+      name: getRandomArrayElement(NAMES) + ' ' + getRandomArrayElement(SURNAMES),
     }]
   }
 );
 
+const similarDescriptionPhoto = Array.from({length: 4}, getDescriptionPhoto);
+
 console.log(getDescriptionPhoto());
+console.log(similarDescriptionPhoto);
