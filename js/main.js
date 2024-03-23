@@ -60,3 +60,18 @@ const DESCRIPTION_PHOTO = [
   'Зажигательный концерт',
   'Как думаете фотошоп?'
 ];
+
+const getDescriptionPhoto = () => (
+  {
+    id: '',
+    url: '',
+    description: '',
+    likes: '',
+    comments: {
+      id: '',
+      avatar: '',
+      message: '',
+      name: ''
+    }
+  }
+);
