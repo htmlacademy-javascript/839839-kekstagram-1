@@ -1,5 +1,3 @@
-'use strict';
-
 const NAMES = [
   'Андрей',
   'Владимир',
@@ -99,14 +97,14 @@ const getRandomArrayElement = (elements) => elements[getRandomInteder(1, (elemen
 const getDescriptionPhoto = () => (
   {
     id: photoId(),
-    url: 'photos/' + imageId() + '.jpg',
+    url: `photos/${imageId()}.jpg`,
     description: getRandomArrayElement(DESCRIPTION_PHOTO),
     likes: getRandomInteder(MIN_LIKE, MAX_LIKE),
     comments: [{
       id: commentId(),
-      avatar: 'img/avatar-' + getRandomInteder(MIN_AVATAR, MAX_AVATAR) + '.svg',
+      avatar: `img/avatar-${getRandomInteder(MIN_AVATAR, MAX_AVATAR)}.svg`,
       message: getRandomArrayElement(MESSAGES),
-      name: getRandomArrayElement(NAMES) + ' ' + getRandomArrayElement(SURNAMES),
+      name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
     }]
   }
 );
