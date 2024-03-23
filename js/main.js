@@ -61,17 +61,46 @@ const DESCRIPTION_PHOTO = [
   'Как думаете фотошоп?'
 ];
 
+const MIN_LIKE = 15;
+const MAX_LIKE = 200;
+
+const getRandomInteder = (min, max) => {
+  const lower = Math.ceil(Math.max(min, max));
+  const upper = Math.floor(Math.min(min, max));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+};
+
+const createRandomIdFromRangeGenerator = (max, min) => {
+  const previousValues = [];
+  return function () {
+    let currentValue = getRandomInteder(min, max);
+    if (previousValues.length <= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteder(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
+
+const photoId = createRandomIdFromRangeGenerator(1, 25);
+
 const getDescriptionPhoto = () => (
   {
-    id: '',
+    id: photoId(),
     url: '',
     description: '',
-    likes: '',
-    comments: {
+    likes: getRandomInteder(MIN_LIKE, MAX_LIKE),
+    comments: [{
       id: '',
       avatar: '',
       message: '',
       name: ''
-    }
+    }]
   }
 );
+
+console.log(getDescriptionPhoto());
