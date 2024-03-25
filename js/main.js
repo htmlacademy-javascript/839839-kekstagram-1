@@ -61,10 +61,21 @@ const DESCRIPTION_PHOTO = [
   'Как думаете фотошоп?'
 ];
 
-const MIN_LIKE = 15;
-const MAX_LIKE = 200;
+const PHOTO_COUNT = 5;
+const MIN_LIKE_COUNT = 15;
+const MAX_LIKE_COUNT = 200;
 const MIN_AVATAR = 1;
 const MAX_AVATAR = 6;
+const MIN_COMMENT_COUNT = 1;
+const MAX_COMMENT_COUNT = 2;
+
+const createIdGenerator = () => {
+  let lastGenerator = 0;
+  return function () {
+    lastGenerator += 1;
+    return lastGenerator;
+  };
+};
 
 const getRandomInteder = (min, max) => {
   const lower = Math.ceil(Math.max(min, max));
@@ -82,34 +93,55 @@ const createRandomIdFromRangeGenerator = (min, max) => {
     }
     while (previousValues.includes(currentValue)) {
       currentValue = getRandomInteder(min, max);
+      console.log("currentValue = ", currentValue);
     }
     previousValues.push(currentValue);
     return currentValue;
   };
 };
 
-const photoId = createRandomIdFromRangeGenerator(0, 25);
-const imageId = createRandomIdFromRangeGenerator(0, 25);
+const photoId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
+// const imageId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
+
+// const photoId = createIdGenerator();
+const imageId = createIdGenerator();
 const commentId = createRandomIdFromRangeGenerator(0, 200);
 
 const getRandomArrayElement = (elements) => elements[getRandomInteder(1, (elements.length - 1))];
 
-const getDescriptionPhoto = () => (
+const getComment = () => ({
+  id: commentId(),
+  avatar: `img/avatar-${getRandomInteder(MIN_AVATAR, MAX_AVATAR)}.svg`,
+  message: getRandomArrayElement(MESSAGES),
+  name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
+});
+
+// const getDescriptionPhoto = () => (
+//   {
+//     id: photoId(),
+//     url: `photos/${imageId()}.jpg`,
+//     description: getRandomArrayElement(DESCRIPTION_PHOTO),
+//     likes: getRandomInteder(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
+//     comments: Array.from({length: getRandomInteder(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, getComment)
+//   }
+// );
+
+const getDescriptionPhoto = (index) => (
   {
-    id: photoId(),
-    url: `photos/${imageId()}.jpg`,
-    description: getRandomArrayElement(DESCRIPTION_PHOTO),
-    likes: getRandomInteder(MIN_LIKE, MAX_LIKE),
-    comments: [{
-      id: commentId(),
-      avatar: `img/avatar-${getRandomInteder(MIN_AVATAR, MAX_AVATAR)}.svg`,
-      message: getRandomArrayElement(MESSAGES),
-      name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
-    }]
+    id: index,
+    url: `photos/${index}.jpg`,
+    description: DESCRIPTION_PHOTO[index - 1],
+    likes: getRandomInteder(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
+    comments: Array.from({length: getRandomInteder(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, getComment)
   }
 );
 
-const similarDescriptionPhoto = Array.from({length: 4}, getDescriptionPhoto);
+// const getArrayPhotos = () => Array.from({length: PHOTO_COUNT}, getDescriptionPhoto);
+const getArrayPhotos = (index) => Array.from({length: PHOTO_COUNT},
+  () => { getDescriptionPhoto(index) });
 
-console.log(getDescriptionPhoto());
-console.log(similarDescriptionPhoto);
+// console.log(getDescriptionPhoto());
+// console.log(getArrayPhotos());
+
+// console.log(getDescriptionPhoto(imageId()));
+console.log(getArrayPhotos(imageId));
