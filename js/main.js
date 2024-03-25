@@ -83,9 +83,9 @@ const createIdGenerator = () => {
   };
 };
 
-const getRandomInteder = (min, max) => {
-  const lower = Math.ceil(Math.max(min, max));
-  const upper = Math.floor(Math.min(min, max));
+const generateRandomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
@@ -93,12 +93,12 @@ const getRandomInteder = (min, max) => {
 const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
   return function () {
-    let currentValue = getRandomInteder(min, max);
+    let currentValue = generateRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
     }
     while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteder(min, max);
+      currentValue = generateRandomInteger(min, max);
       console.log("currentValue = ", currentValue);
     }
     previousValues.push(currentValue);
@@ -113,11 +113,11 @@ const photoId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
 const imageId = createIdGenerator();
 const commentId = createRandomIdFromRangeGenerator(0, 200);
 
-const getRandomArrayElement = (elements) => elements[getRandomInteder(1, (elements.length - 1))];
+const getRandomArrayElement = (elements) => elements[generateRandomInteger(1, (elements.length - 1))];
 
 const getComment = () => ({
   id: commentId(),
-  avatar: `img/avatar-${getRandomInteder(AvatarCount.MIN, AvatarCount.MAX)}.svg`,
+  avatar: `img/avatar-${generateRandomInteger(AvatarCount.MIN, AvatarCount.MAX)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
 });
@@ -127,8 +127,8 @@ const getComment = () => ({
 //     id: photoId(),
 //     url: `photos/${imageId()}.jpg`,
 //     description: getRandomArrayElement(DESCRIPTION_PHOTO),
-//     likes: getRandomInteder(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
-//     comments: Array.from({length: getRandomInteder(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, getComment)
+//     likes: generateRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
+//     comments: Array.from({length: generateRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, getComment)
 //   }
 // );
 
@@ -137,8 +137,8 @@ const getDescriptionPhoto = (index) => (
     id: index,
     url: `photos/${index}.jpg`,
     description: DESCRIPTION_PHOTO[index - 1],
-    likes: getRandomInteder(LikeCount.MIN, LikeCount.MAX),
-    comments: Array.from({length: getRandomInteder(CommentCoutn.MIN, CommentCoutn.MAX)}, getComment)
+    likes: generateRandomInteger(LikeCount.MIN, LikeCount.MAX),
+    comments: Array.from({length: generateRandomInteger(CommentCoutn.MIN, CommentCoutn.MAX)}, getComment)
   }
 );
 
