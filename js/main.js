@@ -61,7 +61,7 @@ const DESCRIPTION_PHOTO = [
   'Как думаете фотошоп?'
 ];
 
-const PHOTO_COUNT = 5;
+const PHOTO_COUNT = 25;
 const AvatarCount = {
   MIN: 1,
   MAX: 6
@@ -105,30 +105,29 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
-const imageId = createIdGenerator();
-const commentId = createRandomIdFromRangeGenerator(0, 200);
+const generateImageId = createIdGenerator();
+const generateCommentId = createRandomIdFromRangeGenerator(1, 200);
 
-const getRandomArrayElement = (elements) => elements[generateRandomInteger(1, (elements.length - 1))];
+const getRandomElementFromArray = (elements) => elements[generateRandomInteger(1, (elements.length - 1))];
 
-const getComment = () => ({
-  id: commentId(),
+const generateComment = () => ({
+  id: generateCommentId(),
   avatar: `img/avatar-${generateRandomInteger(AvatarCount.MIN, AvatarCount.MAX)}.svg`,
-  message: getRandomArrayElement(MESSAGES),
-  name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
+  message: getRandomElementFromArray(MESSAGES),
+  name: `${getRandomElementFromArray(NAMES)} ${getRandomElementFromArray(SURNAMES)}`,
 });
 
-const getDescriptionPhoto = (index) => (
+const generatePhoto = (index) => (
   {
     id: index,
     url: `photos/${index}.jpg`,
     description: DESCRIPTION_PHOTO[index - 1],
     likes: generateRandomInteger(LikeCount.MIN, LikeCount.MAX),
-    comments: Array.from({length: generateRandomInteger(CommentCoutn.MIN, CommentCoutn.MAX)}, getComment)
+    comments: Array.from({length: generateRandomInteger(CommentCoutn.MIN, CommentCoutn.MAX)}, generateComment)
   }
 );
 
-const getArrayPhotos = (index) => Array.from({length: PHOTO_COUNT},
-  () => { getDescriptionPhoto(index) });
+const getPhotos = (value) => Array.from({length: value},
+  (_, index) => generatePhoto(index + 1));
 
-console.log(getDescriptionPhoto(imageId()));
-// console.log(getArrayPhotos(imageId));
+getPhotos(PHOTO_COUNT, generateImageId);
