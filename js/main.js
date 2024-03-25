@@ -105,10 +105,6 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
-const photoId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
-// const imageId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
-
-// const photoId = createIdGenerator();
 const imageId = createIdGenerator();
 const commentId = createRandomIdFromRangeGenerator(0, 200);
 
@@ -121,16 +117,6 @@ const getComment = () => ({
   name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
 });
 
-// const getDescriptionPhoto = () => (
-//   {
-//     id: photoId(),
-//     url: `photos/${imageId()}.jpg`,
-//     description: getRandomArrayElement(DESCRIPTION_PHOTO),
-//     likes: generateRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
-//     comments: Array.from({length: generateRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, getComment)
-//   }
-// );
-
 const getDescriptionPhoto = (index) => (
   {
     id: index,
@@ -141,12 +127,8 @@ const getDescriptionPhoto = (index) => (
   }
 );
 
-// const getArrayPhotos = () => Array.from({length: PHOTO_COUNT}, getDescriptionPhoto);
 const getArrayPhotos = (index) => Array.from({length: PHOTO_COUNT},
   () => { getDescriptionPhoto(index) });
-
-// console.log(getDescriptionPhoto());
-// console.log(getArrayPhotos());
 
 console.log(getDescriptionPhoto(imageId()));
 // console.log(getArrayPhotos(imageId));
