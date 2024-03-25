@@ -62,12 +62,18 @@ const DESCRIPTION_PHOTO = [
 ];
 
 const PHOTO_COUNT = 5;
-const MIN_LIKE_COUNT = 15;
-const MAX_LIKE_COUNT = 200;
-const MIN_AVATAR = 1;
-const MAX_AVATAR = 6;
-const MIN_COMMENT_COUNT = 1;
-const MAX_COMMENT_COUNT = 2;
+const AvatarCount = {
+  MIN: 1,
+  MAX: 6
+};
+const LikeCount = {
+  MIN: 15,
+  MAX: 200
+};
+const CommentCoutn = {
+  MIN: 1,
+  MAX: 5
+};
 
 const createIdGenerator = () => {
   let lastGenerator = 0;
@@ -111,7 +117,7 @@ const getRandomArrayElement = (elements) => elements[getRandomInteder(1, (elemen
 
 const getComment = () => ({
   id: commentId(),
-  avatar: `img/avatar-${getRandomInteder(MIN_AVATAR, MAX_AVATAR)}.svg`,
+  avatar: `img/avatar-${getRandomInteder(AvatarCount.MIN, AvatarCount.MAX)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
 });
@@ -131,8 +137,8 @@ const getDescriptionPhoto = (index) => (
     id: index,
     url: `photos/${index}.jpg`,
     description: DESCRIPTION_PHOTO[index - 1],
-    likes: getRandomInteder(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
-    comments: Array.from({length: getRandomInteder(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, getComment)
+    likes: getRandomInteder(LikeCount.MIN, LikeCount.MAX),
+    comments: Array.from({length: getRandomInteder(CommentCoutn.MIN, CommentCoutn.MAX)}, getComment)
   }
 );
 
@@ -143,5 +149,5 @@ const getArrayPhotos = (index) => Array.from({length: PHOTO_COUNT},
 // console.log(getDescriptionPhoto());
 // console.log(getArrayPhotos());
 
-// console.log(getDescriptionPhoto(imageId()));
-console.log(getArrayPhotos(imageId));
+console.log(getDescriptionPhoto(imageId()));
+// console.log(getArrayPhotos(imageId));
