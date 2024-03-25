@@ -77,7 +77,7 @@ const CommentCoutn = {
 
 const createIdGenerator = () => {
   let lastGenerator = 0;
-  return function () {
+  return () => {
     lastGenerator += 1;
     return lastGenerator;
   };
@@ -92,14 +92,13 @@ const generateRandomInteger = (min, max) => {
 
 const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
-  return function () {
+  return () => {
     let currentValue = generateRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
     }
     while (previousValues.includes(currentValue)) {
       currentValue = generateRandomInteger(min, max);
-      console.log("currentValue = ", currentValue);
     }
     previousValues.push(currentValue);
     return currentValue;
