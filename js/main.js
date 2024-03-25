@@ -75,6 +75,10 @@ const CommentCoutn = {
   MAX: 5
 };
 
+/**
+ * Генерация идентификатора
+ * @return {function} - функция увеличения числа на единицу
+ */
 const createIdGenerator = () => {
   let lastGenerator = 0;
   return () => {
@@ -83,6 +87,12 @@ const createIdGenerator = () => {
   };
 };
 
+/**
+ * Генерация случайного целого числа из заданного диапазона
+ * @param {number} min - минимальное значение диапазона
+ * @param {number} max - максимальное значение диапазона
+ * @return {number} - целое случайное число
+ */
 const generateRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -90,6 +100,12 @@ const generateRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
+/**
+ * Проверка случайного числа на уникальность
+ * @param {number} min - минимальное значение диапазона
+ * @param {number} max - максимальное значение диапазона
+ * @return {function} - уникальное число
+ */
 const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
   return () => {
@@ -108,8 +124,17 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 const generateImageId = createIdGenerator();
 const generateCommentId = createRandomIdFromRangeGenerator(1, 200);
 
+/**
+ * Получить случайный элемент из массива
+ * @param {Array} elements - исходный массив значений
+ * @return {string} - элемент массива
+ */
 const getRandomElementFromArray = (elements) => elements[generateRandomInteger(1, (elements.length - 1))];
 
+/**
+ * Генерация комментария
+ * @return {Object} - данные комментария
+ */
 const generateComment = () => ({
   id: generateCommentId(),
   avatar: `img/avatar-${generateRandomInteger(AvatarCount.MIN, AvatarCount.MAX)}.svg`,
@@ -117,6 +142,11 @@ const generateComment = () => ({
   name: `${getRandomElementFromArray(NAMES)} ${getRandomElementFromArray(SURNAMES)}`,
 });
 
+/**
+ * Генерация фотографии
+ * @param {number} index - идентификатор фотографии
+ * @return {Object} - данные фотографии
+ */
 const generatePhoto = (index) => (
   {
     id: index,
@@ -127,6 +157,11 @@ const generatePhoto = (index) => (
   }
 );
 
+/**
+ * Получить массив фотографий
+ * @param {number} value - количество фотографий
+ * @return {Array} - массив фотографий
+ */
 const getPhotos = (value) => Array.from({length: value},
   (_, index) => generatePhoto(index + 1));
 
