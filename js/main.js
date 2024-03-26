@@ -77,7 +77,7 @@ const CommentCoutn = {
 
 /**
  * Генерация идентификатора
- * @return {function} - функция увеличения числа на единицу
+ * @return {function} - функция
  */
 const createIdGenerator = () => {
   let lastGenerator = 0;
@@ -104,7 +104,7 @@ const generateRandomInteger = (min, max) => {
  * Проверка случайного числа на уникальность
  * @param {number} min - минимальное значение диапазона
  * @param {number} max - максимальное значение диапазона
- * @return {function} - уникальное число
+ * @return {function} - функцию
  */
 const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
@@ -121,6 +121,10 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
+/**
+ * Счетчик
+ * @return {number} - целое число
+ */
 const generateImageId = createIdGenerator();
 const generateCommentId = createRandomIdFromRangeGenerator(1, 200);
 
