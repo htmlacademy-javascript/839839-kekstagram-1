@@ -1,4 +1,4 @@
-import {createIdGenerator, generateRandomInteger, createRandomIdFromRangeGenerator, getRandomElementFromArray} from './util.js';
+import {generateRandomInteger, createRandomIdFromRangeGenerator, getRandomElementFromArray} from './util.js';
 
 const NAMES = [
   'Андрей',
@@ -81,7 +81,6 @@ const CommentCoutn = {
  * Счетчик
  * @return {number} - целое число
  */
-const generateImageId = createIdGenerator();
 const generateCommentId = createRandomIdFromRangeGenerator(1, 200);
 
 /**
@@ -110,4 +109,4 @@ const generatePhoto = (index) => (
   }
 );
 
-export {PHOTO_COUNT, generateImageId, generatePhoto};
+export {PHOTO_COUNT, generatePhoto};

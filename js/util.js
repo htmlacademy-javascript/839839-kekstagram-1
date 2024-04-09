@@ -1,16 +1,4 @@
 /**
- * Генерация идентификатора
- * @return {function} - функция
- */
-const createIdGenerator = () => {
-  let lastGenerator = 0;
-  return () => {
-    lastGenerator += 1;
-    return lastGenerator;
-  };
-};
-
-/**
  * Генерация случайного целого числа из заданного диапазона
  * @param {number} min - минимальное значение диапазона
  * @param {number} max - максимальное значение диапазона
@@ -51,4 +39,4 @@ const createRandomIdFromRangeGenerator = (min, max) => {
  */
 const getRandomElementFromArray = (elements) => elements[generateRandomInteger(1, (elements.length - 1))];
 
-export {createIdGenerator, generateRandomInteger, createRandomIdFromRangeGenerator, getRandomElementFromArray};
+export {generateRandomInteger, createRandomIdFromRangeGenerator, getRandomElementFromArray};

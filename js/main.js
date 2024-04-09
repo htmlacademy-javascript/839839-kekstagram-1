@@ -1,4 +1,4 @@
 import {getPhotos} from './data.js';
-import {PHOTO_COUNT, generateImageId} from './data-generation.js';
+import {PHOTO_COUNT} from './data-generation.js';
 
-getPhotos(PHOTO_COUNT, generateImageId);
+getPhotos(PHOTO_COUNT);
