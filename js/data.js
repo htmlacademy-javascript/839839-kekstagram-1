@@ -5,7 +5,7 @@ import {generatePhoto} from './data-generation.js';
  * @param {number} value - количество фотографий
  * @return {Array} - массив фотографий
  */
-const getPhotos = (value) => Array.from({length: value},
+const getPhotos = (count) => Array.from({length: count},
   (_, index) => generatePhoto(index + 1));
 
 export {getPhotos};
