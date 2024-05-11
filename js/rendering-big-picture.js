@@ -1,5 +1,6 @@
 const picturesList = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
+const overlay = document.querySelector('.overlay');
 const buttonClose = bigPicture.querySelector('.big-picture__cancel');
 const picturePath = document.querySelector('.big-picture__img');
 
@@ -34,3 +35,4 @@ const closePicture = (evt) => {
 picturesList.addEventListener('click', openPicture);
 
 buttonClose.addEventListener('click', closePicture);
+overlay.addEventListener('click', closePicture);
