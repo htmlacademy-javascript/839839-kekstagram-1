@@ -6,12 +6,13 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
  * @param {Object} - данные миниатюры
  * @return {Object} - заполненный шаблон миниатюры
  */
-const getThumbnail = ({url, description, comments, likes}) => {
+const getThumbnail = ({url, description, comments, likes, id}) => {
   const clonePictureTemplate = pictureTemplate.cloneNode(true);
   clonePictureTemplate.querySelector('.picture__img').src = url;
   clonePictureTemplate.querySelector('.picture__img').alt = description;
   clonePictureTemplate.querySelector('.picture__comments').textContent = comments.length;
   clonePictureTemplate.querySelector('.picture__likes').textContent = likes;
+  clonePictureTemplate.dataset.thumbnailId = id;
   return clonePictureTemplate;
 };
 
