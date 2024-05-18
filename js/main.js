@@ -1,7 +1,7 @@
 import {getPhotos} from './mocks/data.js';
 import {PHOTO_COUNT} from './mocks/data-generation.js';
 import {renderingThumbnails} from './rendering-pictures.js';
-import {openPicture, closePicture} from './rendering-big-picture.js';
+import {openPicture, closePicture} from './big-picture.js';
 
 const publicationsData = getPhotos(PHOTO_COUNT);
 renderingThumbnails(publicationsData);
