@@ -1,6 +1,11 @@
 const containerComment = document.querySelector('.social__comments');
 const Comment = document.querySelector('.social__comment');
 
+/**
+ * Заполение данными комментария
+ * @param {Object} avatar, name, message, id - параметры комментария
+ * @return {Object} - элемент комментария
+ */
 const showComment = ({avatar, name, message, id}) => {
   const cloneElementComment = Comment.cloneNode(true);
   cloneElementComment.querySelector('.social__picture').src = avatar;
@@ -10,6 +15,10 @@ const showComment = ({avatar, name, message, id}) => {
   return cloneElementComment;
 };
 
+/**
+ * Заполение данными большого изображения
+ * @param {Object} url, description, comments, likes - параметры изображения
+ */
 const showBigPicture = ({url, description, comments, likes}) => {
   document.querySelector('.big-picture__img img').src = url;
   document.querySelector('.social__caption').textContent = description;
