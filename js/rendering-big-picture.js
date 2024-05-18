@@ -1,3 +1,6 @@
+import {showBigPicture} from './big-picture.js';
+import {publicationsData} from './main.js';
+
 const picturesList = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 // const overlay = document.querySelector('.overlay');
@@ -18,6 +21,11 @@ const openPicture = (evt) => {
   if (!thumbnail) {
     return;
   }
+
+  const picture = publicationsData.find(
+    (element) => element.id === +thumbnail.dataset.thumbnailId
+  );
+  showBigPicture(picture);
   bigPicture.classList.remove('hidden');
   commentCount.classList.add('hidden');
   commentsLoader.classList.add('hidden');
