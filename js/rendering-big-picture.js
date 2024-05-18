@@ -16,6 +16,10 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+/**
+ * Открыть окно с фотографией
+ * @param {Object} evt - объект события
+ */
 const openPicture = (evt) => {
   const thumbnail = evt.target.closest('[data-thumbnail-id]');
   if (!thumbnail) {
@@ -34,6 +38,10 @@ const openPicture = (evt) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+/**
+ * Закрыть окно с фотографией
+ * @param {Object} evt - объект события
+ */
 const closePicture = (evt) => {
   evt.preventDefault();
   bigPicture.classList.add('hidden');
