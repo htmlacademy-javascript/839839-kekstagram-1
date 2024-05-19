@@ -5,7 +5,7 @@ const buttonClose = document.querySelector('.big-picture__cancel');
 const containerComment = document.querySelector('.social__comments');
 const comment = document.querySelector('.social__comment');
 const bigPicture = document.querySelector('.big-picture');
-// const overlay = document.querySelector('.overlay');
+const overlay = document.querySelector('.overlay');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
@@ -80,12 +80,20 @@ const onClosePictureClick = (evt) => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+const onOverlayClick = (evt) => {
+  const bigPicturePreview = evt.target.closest('.big-picture__preview');
+  if (bigPicturePreview) {
+    return;
+  }
+  onClosePictureClick(evt);
+};
+
 const isEventBigPicture = (pictureData) => {
   picturesList.addEventListener('click', (evt) => {
     onOpenPictureClick(evt, pictureData);
   });
   buttonClose.addEventListener('click', onClosePictureClick);
-  // overlay.addEventListener('click', onClosePictureClick);
+  overlay.addEventListener('click', onOverlayClick);
 };
 
 export {isEventBigPicture};
