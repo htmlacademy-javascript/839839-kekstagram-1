@@ -80,8 +80,10 @@ const onClosePictureClick = (evt) => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const isEventBigPicture = (publicationsData) => {
-  picturesList.addEventListener('click', onOpenPictureClick);
+const isEventBigPicture = (pictureData) => {
+  picturesList.addEventListener('click', (evt) => {
+    onOpenPictureClick(evt, pictureData);
+  });
   buttonClose.addEventListener('click', onClosePictureClick);
   // overlay.addEventListener('click', onClosePictureClick);
 };
