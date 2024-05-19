@@ -50,6 +50,7 @@ const onDocumentKeydown = (evt) => {
 /**
  * Открыть окно с фотографией
  * @param {Object} evt - объект события
+ * @param {Array} publicationsData - данные публикаций
  */
 const onOpenPictureClick = (evt, publicationsData) => {
   const thumbnail = evt.target.closest('[data-thumbnail-id]');
@@ -80,6 +81,10 @@ const onClosePictureClick = (evt) => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+/**
+ * Закрыть окно с фотографией по клику на оверлей
+ * @param {Object} evt - объект события
+ */
 const onOverlayClick = (evt) => {
   const bigPicturePreview = evt.target.closest('.big-picture__preview');
   if (bigPicturePreview) {
@@ -88,6 +93,10 @@ const onOverlayClick = (evt) => {
   onClosePictureClick(evt);
 };
 
+/**
+ * Закрыть окно с фотографией по клику на оверлей
+ * @param {Array} pictureData - данные публикаций
+ */
 const isEventBigPicture = (pictureData) => {
   picturesList.addEventListener('click', (evt) => {
     onOpenPictureClick(evt, pictureData);
