@@ -1,5 +1,7 @@
-import {publicationsData} from './main.js';
+import {isKeydownEscape} from './util.js';
 
+const picturesList = document.querySelector('.pictures');
+const buttonClose = document.querySelector('.big-picture__cancel');
 const containerComment = document.querySelector('.social__comments');
 const comment = document.querySelector('.social__comment');
 const bigPicture = document.querySelector('.big-picture');
@@ -39,7 +41,7 @@ const showBigPicture = ({url, description, comments, likes}) => {
 };
 
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isKeydownEscape(evt)) {
     evt.preventDefault();
     bigPicture.classList.add('hidden');
   }
@@ -49,14 +51,14 @@ const onDocumentKeydown = (evt) => {
  * Открыть окно с фотографией
  * @param {Object} evt - объект события
  */
-const openPicture = (evt) => {
+const onOpenPictureClick = (evt, publicationsData) => {
   const thumbnail = evt.target.closest('[data-thumbnail-id]');
   if (!thumbnail) {
     return;
   }
 
   const picture = publicationsData.find(
-    (element) => element.id === +thumbnail.dataset.thumbnailId
+    (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
   showBigPicture(picture);
   bigPicture.classList.remove('hidden');
@@ -71,11 +73,17 @@ const openPicture = (evt) => {
  * Закрыть окно с фотографией
  * @param {Object} evt - объект события
  */
-const closePicture = (evt) => {
+const onClosePictureClick = (evt) => {
   evt.preventDefault();
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-export {openPicture, closePicture};
+const isEventBigPicture = (publicationsData) => {
+  picturesList.addEventListener('click', onOpenPictureClick);
+  buttonClose.addEventListener('click', onClosePictureClick);
+  // overlay.addEventListener('click', onClosePictureClick);
+};
+
+export {isEventBigPicture};
