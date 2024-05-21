@@ -26,6 +26,11 @@ const showComment = ({avatar, name, message, id}) => {
   return cloneElementComment;
 };
 
+/**
+ * Отрисовка комментариев
+ * @param {Array} comments - Массив комментариев
+ * @param {Number} shownComment - Количество показываемых комментариев
+ */
 const renderComments = (comments, shownComment) => {
   shownComment += NUMBER_COMMENTS;
   if (comments.length <= shownComment) {
@@ -66,8 +71,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-
-
 /**
  * Открыть окно с фотографией
  * @param {Object} evt - объект события
@@ -78,7 +81,6 @@ const onOpenPictureClick = (evt, publicationsData) => {
   if (!thumbnail) {
     return;
   }
-
   const picture = publicationsData.find(
     (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
