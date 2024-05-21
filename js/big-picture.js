@@ -1,5 +1,7 @@
 import {isKeydownEscape} from './util.js';
 
+const NUMBER_COMMENTS = 5;
+
 const picturesList = document.querySelector('.pictures');
 const buttonClose = document.querySelector('.big-picture__cancel');
 const containerComment = document.querySelector('.social__comments');
@@ -9,7 +11,6 @@ const overlay = document.querySelector('.overlay');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
-
 
 /**
  * Заполение данными комментария
@@ -25,19 +26,37 @@ const showComment = ({avatar, name, message, id}) => {
   return cloneElementComment;
 };
 
+const renderComments = (comments, shownComment) => {
+  shownComment += NUMBER_COMMENTS;
+  if (comments.length <= shownComment) {
+    commentsLoader.classList.add('hidden');
+    shownComment = comments.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < shownComment; i++) {
+    fragment.append(showComment(comments[i]));
+  }
+  commentCount.innerHTML = `${shownComment} из <span class="comments-count">${comments.length}</span> комментариев`;
+  containerComment.innerHTML = '';
+  containerComment.append(fragment);
+  commentsLoader.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    renderComments(comments, shownComment);
+  });
+};
+
 /**
  * Заполение данными большого изображения
  * @param {Object} url, description, comments, likes - параметры изображения
  */
 const showBigPicture = ({url, description, comments, likes}) => {
+  const shownComment = 0;
   document.querySelector('.big-picture__img img').src = url;
   document.querySelector('.social__caption').textContent = description;
   document.querySelector('.likes-count').textContent = likes;
-  document.querySelector('.comments-count').textContent = comments.length;
-  containerComment.innerHTML = '';
-  comments.forEach((element) => {
-    containerComment.append(showComment(element));
-  });
+  renderComments(comments, shownComment);
 };
 
 const onDocumentKeydown = (evt) => {
@@ -46,6 +65,8 @@ const onDocumentKeydown = (evt) => {
     bigPicture.classList.add('hidden');
   }
 };
+
+
 
 /**
  * Открыть окно с фотографией
@@ -63,8 +84,6 @@ const onOpenPictureClick = (evt, publicationsData) => {
   );
   showBigPicture(picture);
   bigPicture.classList.remove('hidden');
-  commentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
