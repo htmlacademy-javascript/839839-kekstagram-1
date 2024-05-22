@@ -1,6 +1,4 @@
-import {isKeydownEscape} from './util.js';
-
-const NUMBER_COMMENTS = 5;
+import {isKeydownEscape, createShownComment} from './util.js';
 
 const picturesList = document.querySelector('.pictures');
 const buttonClose = document.querySelector('.big-picture__cancel');
@@ -32,7 +30,6 @@ const showComment = ({avatar, name, message, id}) => {
  * @param {Number} shownComment - Количество показываемых комментариев
  */
 const renderComments = (comments, shownComment) => {
-  shownComment += NUMBER_COMMENTS;
   if (comments.length <= shownComment) {
     commentsLoader.classList.add('hidden');
     shownComment = comments.length;
@@ -46,10 +43,6 @@ const renderComments = (comments, shownComment) => {
   commentCount.innerHTML = `${shownComment} из <span class="comments-count">${comments.length}</span> комментариев`;
   containerComment.innerHTML = '';
   containerComment.append(fragment);
-  commentsLoader.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    renderComments(comments, shownComment);
-  });
 };
 
 /**
@@ -57,11 +50,15 @@ const renderComments = (comments, shownComment) => {
  * @param {Object} url, description, comments, likes - параметры изображения
  */
 const showBigPicture = ({url, description, comments, likes}) => {
-  const shownComment = 0;
+  const shownComment = createShownComment();
   document.querySelector('.big-picture__img img').src = url;
   document.querySelector('.social__caption').textContent = description;
   document.querySelector('.likes-count').textContent = likes;
-  renderComments(comments, shownComment);
+  renderComments(comments, shownComment());
+  commentsLoader.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    renderComments(comments, shownComment());
+  });
 };
 
 const onDocumentKeydown = (evt) => {
@@ -87,7 +84,6 @@ const onOpenPictureClick = (evt, publicationsData) => {
   showBigPicture(picture);
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
-
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
