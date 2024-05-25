@@ -1,5 +1,7 @@
+const form = document.querySelector('.img-upload__form');
 const uploadFile = document.querySelector('#upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
+const buttonCancel = document.querySelector('#upload-cancel');
 const body = document.querySelector('body');
 
 const onDocumentKeydown = (evt) => {
@@ -15,4 +17,12 @@ const onUploadFileChange = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+const onButtonCancelClick = () => {
+  form.reset();
+  overlay.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
 uploadFile.addEventListener('change', onUploadFileChange);
+buttonCancel.addEventListener('click', onButtonCancelClick);
