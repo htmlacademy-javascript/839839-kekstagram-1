@@ -24,5 +24,9 @@ const onButtonCancelClick = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-uploadFile.addEventListener('change', onUploadFileChange);
-buttonCancel.addEventListener('click', onButtonCancelClick);
+const isEventUploadForm = () => {
+  uploadFile.addEventListener('change', onUploadFileChange);
+  buttonCancel.addEventListener('click', onButtonCancelClick);
+};
+
+isEventUploadForm();
