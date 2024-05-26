@@ -1408,3 +1408,10 @@ main {
 .hidden {
   display: none;
 }
+
+.form__error {
+  margin-top: -20px;
+  font-weight: 700;
+  color: #ff5353;
+  text-transform: none;
+}
