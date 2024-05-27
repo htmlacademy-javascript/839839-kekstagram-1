@@ -83,17 +83,24 @@ const onOpenPictureClick = (evt, publicationsData) => {
 
 /**
  * Закрыть окно с фотографией
- * @param {Object} evt - объект события
  */
-const onClosePictureClick = (evt) => {
-  evt.preventDefault();
+const closePicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 /**
- * Закрыть окно с фотографией по клику на оверлей
+ * Обработчик по кнопке "Закрыть" - окна с фотографией
+ * @param {Object} evt - объект события
+ */
+const onClosePictureClick = (evt) => {
+  evt.preventDefault();
+  closePicture();
+};
+
+/**
+ * Обработчик для overlay
  * @param {Object} evt - объект события
  */
 const onOverlayClick = (evt) => {
@@ -101,13 +108,13 @@ const onOverlayClick = (evt) => {
   if (bigPicturePreview) {
     return;
   }
-  onClosePictureClick(evt);
+  closePicture();
 };
 
 function onDocumentKeydown(evt) {
   if (isKeydownEscape(evt)) {
     evt.preventDefault();
-    onClosePictureClick();
+    closePicture();
   }
 }
 
@@ -115,7 +122,7 @@ function onDocumentKeydown(evt) {
  * Закрыть окно с фотографией по клику на оверлей
  * @param {Array} pictureData - данные публикаций
  */
-const isEventBigPicture = (pictureData) => {
+const addEventListenerThumbnail = (pictureData) => {
   picturesList.addEventListener('click', (evt) => {
     onOpenPictureClick(evt, pictureData);
   });
@@ -123,4 +130,4 @@ const isEventBigPicture = (pictureData) => {
   overlay.addEventListener('click', onOverlayClick);
 };
 
-export {isEventBigPicture};
+export {addEventListenerThumbnail};
