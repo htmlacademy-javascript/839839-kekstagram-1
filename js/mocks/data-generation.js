@@ -74,7 +74,7 @@ const LikeCount = {
 };
 const CommentCoutn = {
   MIN: 1,
-  MAX: 5
+  MAX: 15
 };
 
 /**
