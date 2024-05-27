@@ -61,13 +61,6 @@ const showBigPicture = ({url, description, comments, likes}) => {
   });
 };
 
-const onDocumentKeydown = (evt) => {
-  if (isKeydownEscape(evt)) {
-    evt.preventDefault();
-    bigPicture.classList.add('hidden');
-  }
-};
-
 /**
  * Открыть окно с фотографией
  * @param {Object} evt - объект события
@@ -78,6 +71,7 @@ const onOpenPictureClick = (evt, publicationsData) => {
   if (!thumbnail) {
     return;
   }
+  evt.preventDefault();
   const picture = publicationsData.find(
     (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
@@ -109,6 +103,13 @@ const onOverlayClick = (evt) => {
   }
   onClosePictureClick(evt);
 };
+
+function onDocumentKeydown(evt) {
+  if (isKeydownEscape(evt)) {
+    evt.preventDefault();
+    onClosePictureClick();
+  }
+}
 
 /**
  * Закрыть окно с фотографией по клику на оверлей
