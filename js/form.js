@@ -1,4 +1,8 @@
 const TOTAL_HASHTAG = 5;
+// const ErrorText = {
+//   ENTRY_FORM_VALIDATION: 'Не правильная форма записи хештега',
+//   COUNT_VALIDATION: 'Не больше пяти хэш-тегов'
+// };
 
 const form = document.querySelector('.img-upload__form');
 const uploadFile = document.querySelector('#upload-file');
@@ -18,7 +22,8 @@ const pristine = new Pristine(form, {
 });
 
 const hashtagCountValidation = (value) => {
-  const hashtags = value.trim().split(' ');
+  const hashtags = value.trim().split(' ')
+    .filter((tag) => tag.trim().length);
   return hashtags.length <= TOTAL_HASHTAG;
 };
 
