@@ -21,8 +21,13 @@ const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
+// const validationForEmptySpaces = (value) => {
+//   const hashtags = value.trim().split(' ')
+//     .filter((tag) => tag.trim().length);
+// };
+
 const uniquenessValidation = (value) => {
-  const lowerCaseHashtag = value.map((hashtag) => hashtag.toLowerCase());
+  const lowerCaseHashtag = value.split(' ').map((hashtag) => hashtag.toLowerCase());
   return lowerCaseHashtag.length === new Set(lowerCaseHashtag).size;
 };
 
@@ -33,6 +38,9 @@ const hashtagCountValidation = (value) => {
 };
 
 const hashtagEntryFormValidation = (value) => {
+  if (!value) {
+    return true;
+  }
   const hashtags = value.trim().split(' ');
   for (let i = 0; i < hashtags.length; i++) {
     if (!hashtagTest.test(hashtags[i])) {
@@ -51,12 +59,15 @@ const onUploadFileChange = () => {
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
-
-const onButtonCancelClick = () => {
+const hideForm = () => {
   form.reset();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const onButtonCancelClick = () => {
+  hideForm();
 };
 
 const isInputFocus = () =>
@@ -64,9 +75,9 @@ const isInputFocus = () =>
   document.activeElement === description;
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isInputFocus) {
+  if (evt.key === 'Escape' && !isInputFocus()) {
     evt.preventDefault();
-    onButtonCancelClick();
+    hideForm();
   }
 }
 
@@ -79,4 +90,4 @@ const isEventUploadForm = () => {
   });
 };
 
-isEventUploadForm();
+export {isEventUploadForm};
