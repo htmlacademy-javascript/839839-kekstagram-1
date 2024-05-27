@@ -21,6 +21,11 @@ const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
+const uniquenessValidation = (value) => {
+  const lowerCaseHashtag = value.map((hashtag) => hashtag.toLowerCase());
+  return lowerCaseHashtag.length === new Set(lowerCaseHashtag).size;
+};
+
 const hashtagCountValidation = (value) => {
   const hashtags = value.trim().split(' ')
     .filter((tag) => tag.trim().length);
@@ -39,6 +44,7 @@ const hashtagEntryFormValidation = (value) => {
 
 pristine.addValidator(textHashtag, hashtagEntryFormValidation, 'Не правильная форма записи хештега');
 pristine.addValidator(textHashtag, hashtagCountValidation, 'Не больше пяти хэш-тегов');
+pristine.addValidator(textHashtag, uniquenessValidation, 'Не уникальный хэш-тег');
 
 const onUploadFileChange = () => {
   overlay.classList.remove('hidden');
