@@ -66,7 +66,7 @@ const showBigPicture = ({url, description, comments, likes}) => {
  * @param {Object} evt - объект события
  * @param {Array} publicationsData - данные публикаций
  */
-const onOpenPictureClick = (evt, publicationsData) => {
+const OpenPicture = (evt, publicationsData) => {
   const thumbnail = evt.target.closest('[data-thumbnail-id]');
   if (!thumbnail) {
     return;
@@ -124,7 +124,7 @@ function onDocumentKeydown(evt) {
  */
 const addEventListenerThumbnail = (pictureData) => {
   picturesList.addEventListener('click', (evt) => {
-    onOpenPictureClick(evt, pictureData);
+    OpenPicture(evt, pictureData);
   });
   buttonClose.addEventListener('click', onClosePictureClick);
   overlay.addEventListener('click', onOverlayClick);
