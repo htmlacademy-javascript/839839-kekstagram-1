@@ -1,8 +1,9 @@
-const TOTAL_HASHTAG = 5;
-// const ErrorText = {
-//   ENTRY_FORM_VALIDATION: 'Не правильная форма записи хештега',
-//   COUNT_VALIDATION: 'Не больше пяти хэш-тегов'
-// };
+const MAX_HASHTAGS = 5;
+const ErrorText = {
+  FORMAT_HASHTAG: 'Не правильная форма записи хештега',
+  COUNT_VALIDATION: 'Не больше пяти хэш-тегов',
+  UNIQUENESS_VALIDATION: 'Не уникальный хэш-тег'
+};
 
 const form = document.querySelector('.img-upload__form');
 const uploadFile = document.querySelector('#upload-file');
@@ -34,7 +35,7 @@ const uniquenessValidation = (value) => {
 const hashtagCountValidation = (value) => {
   const hashtags = value.trim().split(' ')
     .filter((tag) => tag.trim().length);
-  return hashtags.length <= TOTAL_HASHTAG;
+  return hashtags.length <= MAX_HASHTAGS;
 };
 
 const hashtagEntryFormValidation = (value) => {
@@ -50,9 +51,9 @@ const hashtagEntryFormValidation = (value) => {
   return true;
 };
 
-pristine.addValidator(textHashtag, hashtagEntryFormValidation, 'Не правильная форма записи хештега');
-pristine.addValidator(textHashtag, hashtagCountValidation, 'Не больше пяти хэш-тегов');
-pristine.addValidator(textHashtag, uniquenessValidation, 'Не уникальный хэш-тег');
+pristine.addValidator(textHashtag, hashtagEntryFormValidation, ErrorText.FORMAT_HASHTAG);
+pristine.addValidator(textHashtag, hashtagCountValidation, ErrorText.COUNT_VALIDATION);
+pristine.addValidator(textHashtag, uniquenessValidation, ErrorText.UNIQUENESS_VALIDATION);
 
 const onUploadFileChange = () => {
   overlay.classList.remove('hidden');
