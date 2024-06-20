@@ -55,6 +55,10 @@ const showBigPicture = ({url, description, comments, likes}) => {
   document.querySelector('.social__caption').textContent = description;
   document.querySelector('.likes-count').textContent = likes;
   renderComments(comments, shownComment());
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+
   commentsLoader.addEventListener('click', (evt) => {
     evt.preventDefault();
     renderComments(comments, shownComment());
@@ -76,9 +80,6 @@ const OpenPicture = (evt, publicationsData) => {
     (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
   showBigPicture(picture);
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 /**
@@ -119,7 +120,7 @@ function onDocumentKeydown(evt) {
 }
 
 /**
- * Закрыть окно с фотографией по клику на оверлей
+ * Добавить событие на миниатюру
  * @param {Array} pictureData - данные публикаций
  */
 const addEventListenerThumbnail = (pictureData) => {
