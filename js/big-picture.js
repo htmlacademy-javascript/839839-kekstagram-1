@@ -4,6 +4,7 @@ const picturesList = document.querySelector('.pictures');
 const buttonClose = document.querySelector('.big-picture__cancel');
 const containerComment = document.querySelector('.social__comments');
 const comment = document.querySelector('.social__comment');
+const inputComment = document.querySelector('.social__footer-text');
 const bigPicture = document.querySelector('.big-picture');
 const overlay = document.querySelector('.overlay');
 const commentCount = document.querySelector('.social__comment-count');
@@ -55,17 +56,14 @@ const showBigPicture = ({url, description, comments, likes}) => {
   document.querySelector('.social__caption').textContent = description;
   document.querySelector('.likes-count').textContent = likes;
   renderComments(comments, shownComment());
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+
   commentsLoader.addEventListener('click', (evt) => {
     evt.preventDefault();
     renderComments(comments, shownComment());
   });
-};
-
-const onDocumentKeydown = (evt) => {
-  if (isKeydownEscape(evt)) {
-    evt.preventDefault();
-    bigPicture.classList.add('hidden');
-  }
 };
 
 /**
@@ -73,33 +71,42 @@ const onDocumentKeydown = (evt) => {
  * @param {Object} evt - объект события
  * @param {Array} publicationsData - данные публикаций
  */
-const onOpenPictureClick = (evt, publicationsData) => {
+const OpenPicture = (evt, publicationsData) => {
   const thumbnail = evt.target.closest('[data-thumbnail-id]');
   if (!thumbnail) {
     return;
   }
+  evt.preventDefault();
   const picture = publicationsData.find(
     (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
   showBigPicture(picture);
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
+/*   commentsLoader.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    renderComments(picture.comments, shownComment());
+  }); */
 };
 
 /**
  * Закрыть окно с фотографией
- * @param {Object} evt - объект события
  */
-const onClosePictureClick = (evt) => {
-  evt.preventDefault();
+const closePicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 /**
- * Закрыть окно с фотографией по клику на оверлей
+ * Обработчик по кнопке "Закрыть" - окна с фотографией
+ * @param {Object} evt - объект события
+ */
+const onClosePictureClick = (evt) => {
+  evt.preventDefault();
+  closePicture();
+};
+
+/**
+ * Обработчик для overlay
  * @param {Object} evt - объект события
  */
 const onOverlayClick = (evt) => {
@@ -107,19 +114,31 @@ const onOverlayClick = (evt) => {
   if (bigPicturePreview) {
     return;
   }
-  onClosePictureClick(evt);
+  closePicture();
 };
 
+function onDocumentKeydown(evt) {
+  if (isKeydownEscape(evt)) {
+    evt.preventDefault();
+    closePicture();
+  }
+}
+
 /**
- * Закрыть окно с фотографией по клику на оверлей
+ * Добавить событие на миниатюру
  * @param {Array} pictureData - данные публикаций
  */
-const isEventBigPicture = (pictureData) => {
+const addEventListenerThumbnail = (pictureData) => {
   picturesList.addEventListener('click', (evt) => {
-    onOpenPictureClick(evt, pictureData);
+    OpenPicture(evt, pictureData);
   });
   buttonClose.addEventListener('click', onClosePictureClick);
   overlay.addEventListener('click', onOverlayClick);
+  inputComment.addEventListener('keydown', (evt) => {
+    if (isKeydownEscape(evt)) {
+      evt.stopPropagation();
+    }
+  });
 };
 
-export {isEventBigPicture};
+export {addEventListenerThumbnail};

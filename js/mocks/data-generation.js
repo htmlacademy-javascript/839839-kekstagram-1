@@ -72,7 +72,7 @@ const LikeCount = {
   MIN: 15,
   MAX: 200
 };
-const CommentCoutn = {
+const CommentCount = {
   MIN: 1,
   MAX: 15
 };
@@ -105,7 +105,7 @@ const generatePhoto = (index) => (
     url: `photos/${index}.jpg`,
     description: DESCRIPTION_PHOTO[index - 1],
     likes: generateRandomInteger(LikeCount.MIN, LikeCount.MAX),
-    comments: Array.from({length: generateRandomInteger(CommentCoutn.MIN, CommentCoutn.MAX)}, generateComment)
+    comments: Array.from({length: generateRandomInteger(CommentCount.MIN, CommentCount.MAX)}, generateComment)
   }
 );
 
