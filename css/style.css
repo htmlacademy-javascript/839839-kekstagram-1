@@ -1415,3 +1415,7 @@ main {
   color: #ff5353;
   text-transform: none;
 }
+
+.text__description + .form__error {
+  margin-top: 0;
+}
