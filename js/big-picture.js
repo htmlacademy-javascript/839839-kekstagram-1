@@ -4,6 +4,7 @@ const picturesList = document.querySelector('.pictures');
 const buttonClose = document.querySelector('.big-picture__cancel');
 const containerComment = document.querySelector('.social__comments');
 const comment = document.querySelector('.social__comment');
+const inputComment = document.querySelector('.social__footer-text');
 const bigPicture = document.querySelector('.big-picture');
 const overlay = document.querySelector('.overlay');
 const commentCount = document.querySelector('.social__comment-count');
@@ -80,6 +81,10 @@ const OpenPicture = (evt, publicationsData) => {
     (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
   showBigPicture(picture);
+/*   commentsLoader.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    renderComments(picture.comments, shownComment());
+  }); */
 };
 
 /**
@@ -129,6 +134,11 @@ const addEventListenerThumbnail = (pictureData) => {
   });
   buttonClose.addEventListener('click', onClosePictureClick);
   overlay.addEventListener('click', onOverlayClick);
+  inputComment.addEventListener('keydown', (evt) => {
+    if (isKeydownEscape(evt)) {
+      evt.stopPropagation();
+    }
+  });
 };
 
 export {addEventListenerThumbnail};
