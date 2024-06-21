@@ -24,16 +24,20 @@ const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
-// const validationForEmptySpaces = (value) => {
-//   const hashtags = value.trim().split(' ')
-//     .filter((tag) => tag.trim().length);
-// };
+/**
+ * Исключение лишних пробелов из массива
+ */
+const removeEmptySpaces = (value) => {
+  const hashtags = value.trim().split(' ')
+    .filter((tag) => tag.trim().length);
+  return hashtags;
+};
 
 /**
  * Проверка на уникальность хештегов
  */
 const uniquenessValidation = (value) => {
-  const lowerCaseHashtag = value.split(' ').map((hashtag) => hashtag.toLowerCase());
+  const lowerCaseHashtag = removeEmptySpaces(value).map((hashtag) => hashtag.toLowerCase());
   return lowerCaseHashtag.length === new Set(lowerCaseHashtag).size;
 };
 
@@ -41,8 +45,7 @@ const uniquenessValidation = (value) => {
  * Проверка на количество допустимых хештегов
  */
 const hashtagCountValidation = (value) => {
-  const hashtags = value.trim().split(' ')
-    .filter((tag) => tag.trim().length);
+  const hashtags = removeEmptySpaces(value);
   return hashtags.length <= MAX_HASHTAGS;
 };
 
@@ -53,7 +56,7 @@ const hashtagEntryFormValidation = (value) => {
   if (!value) {
     return true;
   }
-  const hashtags = value.trim().split(' ');
+  const hashtags = removeEmptySpaces(value);
   for (let i = 0; i < hashtags.length; i++) {
     if (!hashtagTest.test(hashtags[i])) {
       return false;
