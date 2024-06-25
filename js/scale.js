@@ -7,7 +7,7 @@ const ScaleValue = {
 const buttonSmaller = document.querySelector('.scale__control--smaller');
 const buttonBigger = document.querySelector('.scale__control--bigger');
 const inputScale = document.querySelector('.scale__control--value');
-const imgPrevie = document.querySelector('.img-upload__preview');
+const imgPrevie = document.querySelector('.img-upload__preview > img');
 
 inputScale.value = '100%';
 
