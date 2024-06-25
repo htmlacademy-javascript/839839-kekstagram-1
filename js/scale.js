@@ -11,11 +11,17 @@ const imgPrevie = document.querySelector('.img-upload__preview > img');
 
 inputScale.value = '100%';
 
+/**
+ * Изменение размера изображения
+ */
 const resizePicture = (value) => {
   value /= 100;
   imgPrevie.style.transform = `scale(${value})`;
 };
 
+/**
+ * Обработчик - уменьшает масштаб
+ */
 const onButtonSmallerClick = () => {
   inputScale.value = parseInt(inputScale.value, 10) - STEP;
   if (inputScale.value < ScaleValue.MIN) {
@@ -25,6 +31,9 @@ const onButtonSmallerClick = () => {
   inputScale.value += '%';
 };
 
+/**
+ * Обработчик - увеличивает масштаб
+ */
 const onButtonBiggerClick = () => {
   inputScale.value = parseInt(inputScale.value, 10) + STEP;
   if (inputScale.value > ScaleValue.MAX) {
