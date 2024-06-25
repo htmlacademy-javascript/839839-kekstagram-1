@@ -16,20 +16,27 @@ const resizePicture = (value) => {
   imgPrevie.style.transform = `scale(${value})`;
 };
 
-buttonSmaller.addEventListener('click', () => {
+const onButtonSmallerClick = () => {
   inputScale.value = parseInt(inputScale.value, 10) - STEP;
   if (inputScale.value < ScaleValue.MIN) {
     inputScale.value = ScaleValue.MIN;
   }
   resizePicture(inputScale.value);
   inputScale.value += '%';
-});
+};
 
-buttonBigger.addEventListener('click', () => {
+const onButtonBiggerClick = () => {
   inputScale.value = parseInt(inputScale.value, 10) + STEP;
   if (inputScale.value > ScaleValue.MAX) {
     inputScale.value = ScaleValue.MAX;
   }
   resizePicture(inputScale.value);
   inputScale.value += '%';
-});
+};
+
+const addEventListenerButton = () => {
+  buttonSmaller.addEventListener('click', onButtonSmallerClick);
+  buttonBigger.addEventListener('click', onButtonBiggerClick);
+};
+
+export {addEventListenerButton};
