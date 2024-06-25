@@ -1,27 +1,92 @@
-const DefaultEffect = {
-  min: 0,
-  max: 1,
-  step: 0.1,
+const EFFECTS = [
+  {
+    name: 'none',
+    style: 'none',
+    min: 0,
+    max: 100,
+    step: 1,
+    unit: '',
+  },
+  {
+    name: 'chrome',
+    style: 'grayscale',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unit: '',
+  },
+  {
+    name: 'sepia',
+    style: 'sepia',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unit: '',
+  },
+  {
+    name: 'marvin',
+    style: 'invert',
+    min: 0,
+    max: 100,
+    step: 1,
+    unit: '%',
+  },
+  {
+    name: 'phobos',
+    style: 'blur',
+    min: 0,
+    max: 3,
+    step: 0.1,
+    unit: 'px',
+  },
+  {
+    name: 'heat',
+    style: ' brightness',
+    min: 0,
+    max: 3,
+    step: 0.1,
+    unit: '',
+  },
+];
+
+const DEFAULT_EFFECT = EFFECTS[0];
+let chosenEffect = DEFAULT_EFFECT;
+
+const effectsList = document.querySelector('.effects__list');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
+const imgPreview = document.querySelector('.img-upload__preview img');
+const slider = document.querySelector('.effect-level__slider');
+const effectLevelValue = document.querySelector('.effect-level__value');
+
+/**
+ * Проверка на оригинал
+ */
+const isDefault = () => chosenEffect === DEFAULT_EFFECT;
+
+/**
+ * Показать слайдер
+ */
+const showSlider = () => {
+  sliderContainer.classList.remove('hidden');
 };
 
-const effectsRadio = document.querySelectorAll('.effects__radio');
-const imgPreview = document.querySelector('.img-upload__preview');
-const slider = document.querySelector('.effect-level__slider');
-const valueElement = document.querySelector('.effect-level__value');
-
-valueElement.value = 100;
-slider.setAttribute('disabled', true);
+/**
+ * Скрыть слайдер
+ */
+const hideSlider = () => {
+  sliderContainer.classList.add('hidden');
+};
 
 /**
  * Создание слайдера
  */
 noUiSlider.create(slider, {
   range: {
-    min: DefaultEffect.min,
-    max: DefaultEffect.max,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: DefaultEffect.max,
-  step: DefaultEffect.step,
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
   connect: 'lower',
   format: {
     to: (value) => {
@@ -34,42 +99,66 @@ noUiSlider.create(slider, {
   },
 });
 
-/**
- * Записать актуальное значение слайдера в valueElement
- */
-slider.noUiSlider.on('update', () => {
-  valueElement.value = slider.noUiSlider.get();
-});
+hideSlider();
 
 /**
  * Обновление настройки слайдера
  */
-const updateSliderOptions = (minValue, maxValue, stepValue) => {
+const updateSliderOptions = () => {
   slider.noUiSlider.updateOptions({
     range: {
-      min: minValue,
-      max: maxValue,
+      min: chosenEffect.min,
+      max: chosenEffect.max,
     },
-    start: maxValue,
-    step: stepValue,
+    start: chosenEffect.max,
+    step: chosenEffect.step,
   });
-  slider.removeAttribute('disabled');
+  if (isDefault()) {
+    hideSlider();
+  } else {
+    showSlider();
+  }
 };
 
 /**
- * Добавить событие на список эффектов
+ * Сбросить эффекты
  */
-effectsRadio.forEach((element) => {
-  element.addEventListener('change', (evt) => {
-    const radio = evt.target.value;
-    if (radio === 'none') {
-      slider.setAttribute('disabled', true);
-    } else if (radio === 'chrome') {
-      updateSliderOptions(0, 1, 0.1);
-    } else if (radio === 'sepia') {
-      updateSliderOptions(0, 1, 0.1);
-    } else {
-      updateSliderOptions(0, 100, 1);
-    }
-  });
-});
+const resetEffects = () => {
+  chosenEffect = DEFAULT_EFFECT;
+  updateSliderOptions();
+};
+
+/**
+ * Обработчик клика по списку эффектов
+ */
+const onSliderUpdate = () => {
+  effectLevelValue.value = slider.noUiSlider.get();
+  const sliderValue = effectLevelValue.value;
+  if (isDefault()) {
+    imgPreview.style.filter = DEFAULT_EFFECT.style;
+  } else {
+    imgPreview.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
+  }
+};
+
+/**
+ * Обработчик события изменения слайдера
+ */
+const onEffectsListClick = (evt) => {
+  if (!evt.target.classList.contains('effects__radio')) {
+    return;
+  }
+  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  imgPreview.className = `effects__preview--${chosenEffect.name}`;
+  updateSliderOptions();
+};
+
+/**
+ * Добавить эффекты на изображения
+ */
+const addEventListenerEffects = () => {
+  effectsList.addEventListener('click', onEffectsListClick);
+  slider.noUiSlider.on('update', onSliderUpdate);
+};
+
+export {resetEffects, addEventListenerEffects};
