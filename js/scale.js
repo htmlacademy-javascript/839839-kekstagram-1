@@ -18,7 +18,7 @@ const resizePicture = (value) => {
 
 buttonSmaller.addEventListener('click', () => {
   inputScale.value = parseInt(inputScale.value, 10) - STEP;
-  if (inputScale.value <= ScaleValue.MIN) {
+  if (inputScale.value < ScaleValue.MIN) {
     inputScale.value = ScaleValue.MIN;
   }
   resizePicture(inputScale.value);
@@ -27,7 +27,7 @@ buttonSmaller.addEventListener('click', () => {
 
 buttonBigger.addEventListener('click', () => {
   inputScale.value = parseInt(inputScale.value, 10) + STEP;
-  if (inputScale.value >= ScaleValue.MAX) {
+  if (inputScale.value > ScaleValue.MAX) {
     inputScale.value = ScaleValue.MAX;
   }
   resizePicture(inputScale.value);
