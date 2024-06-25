@@ -1,4 +1,5 @@
 import {isKeydownEscape} from './util.js';
+import {resetEffects} from './effect.js';
 
 const MAX_HASHTAGS = 5;
 const ErrorText = {
@@ -91,6 +92,7 @@ const showModal = () => {
 const hideModal = () => {
   form.reset();
   pristine.reset();
+  resetEffects();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
