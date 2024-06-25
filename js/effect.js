@@ -14,7 +14,7 @@ slider.setAttribute('disabled', true);
 
 /**
  * Создание слайдера
- **/
+ */
 noUiSlider.create(slider, {
   range: {
     min: DefaultEffect.min,
@@ -34,6 +34,42 @@ noUiSlider.create(slider, {
   },
 });
 
+/**
+ * Записать актуальное значение слайдера в valueElement
+ */
 slider.noUiSlider.on('update', () => {
   valueElement.value = slider.noUiSlider.get();
+});
+
+/**
+ * Обновление настройки слайдера
+ */
+const updateSliderOptions = (minValue, maxValue, stepValue) => {
+  slider.noUiSlider.updateOptions({
+    range: {
+      min: minValue,
+      max: maxValue,
+    },
+    start: maxValue,
+    step: stepValue,
+  });
+  slider.removeAttribute('disabled');
+};
+
+/**
+ * Добавить событие на список эффектов
+ */
+effectsRadio.forEach((element) => {
+  element.addEventListener('change', (evt) => {
+    const radio = evt.target.value;
+    if (radio === 'none') {
+      slider.setAttribute('disabled', true);
+    } else if (radio === 'chrome') {
+      updateSliderOptions(0, 1, 0.1);
+    } else if (radio === 'sepia') {
+      updateSliderOptions(0, 1, 0.1);
+    } else {
+      updateSliderOptions(0, 100, 1);
+    }
+  });
 });
