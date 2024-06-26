@@ -1,8 +1,11 @@
-const TOTAL_HASHTAG = 5;
-// const ErrorText = {
-//   ENTRY_FORM_VALIDATION: 'Не правильная форма записи хештега',
-//   COUNT_VALIDATION: 'Не больше пяти хэш-тегов'
-// };
+import {isKeydownEscape} from './util.js';
+
+const MAX_HASHTAGS = 5;
+const ErrorText = {
+  FORMAT_HASHTAG: 'Не правильная форма записи хештега',
+  COUNT_VALIDATION: 'Не больше пяти хэш-тегов',
+  UNIQUENESS_VALIDATION: 'Не уникальный хэш-тег'
+};
 
 const form = document.querySelector('.img-upload__form');
 const uploadFile = document.querySelector('#upload-file');
@@ -21,19 +24,39 @@ const pristine = new Pristine(form, {
   errorTextClass: 'form__error'
 });
 
+/**
+ * Исключение лишних пробелов из массива
+ */
+const removeEmptySpaces = (value) => {
+  const hashtags = value.trim().split(' ')
+    .filter((tag) => tag.trim().length);
+  return hashtags;
+};
+
+/**
+ * Проверка на уникальность хештегов
+ */
 const uniquenessValidation = (value) => {
-  const lowerCaseHashtag = value.map((hashtag) => hashtag.toLowerCase());
+  const lowerCaseHashtag = removeEmptySpaces(value).map((hashtag) => hashtag.toLowerCase());
   return lowerCaseHashtag.length === new Set(lowerCaseHashtag).size;
 };
 
+/**
+ * Проверка на количество допустимых хештегов
+ */
 const hashtagCountValidation = (value) => {
-  const hashtags = value.trim().split(' ')
-    .filter((tag) => tag.trim().length);
-  return hashtags.length <= TOTAL_HASHTAG;
+  const hashtags = removeEmptySpaces(value);
+  return hashtags.length <= MAX_HASHTAGS;
 };
 
+/**
+ * Проверка на форму написания хештега
+ */
 const hashtagEntryFormValidation = (value) => {
-  const hashtags = value.trim().split(' ');
+  if (!value) {
+    return true;
+  }
+  const hashtags = removeEmptySpaces(value);
   for (let i = 0; i < hashtags.length; i++) {
     if (!hashtagTest.test(hashtags[i])) {
       return false;
@@ -42,35 +65,65 @@ const hashtagEntryFormValidation = (value) => {
   return true;
 };
 
-pristine.addValidator(textHashtag, hashtagEntryFormValidation, 'Не правильная форма записи хештега');
-pristine.addValidator(textHashtag, hashtagCountValidation, 'Не больше пяти хэш-тегов');
-pristine.addValidator(textHashtag, uniquenessValidation, 'Не уникальный хэш-тег');
+pristine.addValidator(textHashtag, hashtagEntryFormValidation, ErrorText.FORMAT_HASHTAG);
+pristine.addValidator(textHashtag, hashtagCountValidation, ErrorText.COUNT_VALIDATION);
+pristine.addValidator(textHashtag, uniquenessValidation, ErrorText.UNIQUENESS_VALIDATION);
 
-const onUploadFileChange = () => {
+/**
+ * Проверка фокуса на поле ввода
+ */
+const isInputFocus = () =>
+  document.activeElement === textHashtag ||
+  document.activeElement === description;
+
+/**
+ * Показать модальное окно
+ */
+const showModal = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const onButtonCancelClick = () => {
+/**
+ * Скрыть модальное окно
+ */
+const hideModal = () => {
   form.reset();
+  pristine.reset();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const isInputFocus = () =>
-  document.activeElement === textHashtag ||
-  document.activeElement === description;
-
+/**
+ * Обработчик для кнопки esc и проверка фокуса
+ */
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isInputFocus) {
+  if (isKeydownEscape(evt) && !isInputFocus()) {
     evt.preventDefault();
-    onButtonCancelClick();
+    hideModal();
   }
 }
 
-const isEventUploadForm = () => {
+/**
+ * Обработчик для загрузки файла
+ */
+const onUploadFileChange = () => {
+  showModal();
+};
+
+/**
+ * Обработчик для кнопки закрыть
+ */
+const onButtonCancelClick = () => {
+  hideModal();
+};
+
+/**
+ * Добавить событие на форму
+ */
+const addEventUploadForm = () => {
   uploadFile.addEventListener('change', onUploadFileChange);
   buttonCancel.addEventListener('click', onButtonCancelClick);
   form.addEventListener('submit', (evt) => {
@@ -79,4 +132,4 @@ const isEventUploadForm = () => {
   });
 };
 
-isEventUploadForm();
+export {addEventUploadForm};
