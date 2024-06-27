@@ -1,5 +1,3 @@
-// import {getPhotos} from './mocks/data.js';
-// import {PHOTO_COUNT} from './mocks/data-generation.js';
 import {renderingThumbnails} from './rendering-pictures.js';
 import {addEventListenerThumbnail} from './big-picture.js';
 import {addEventUploadForm} from './form.js';
@@ -15,10 +13,6 @@ try {
 } catch (err){
   showAlert(err.message);
 }
-
-// const publicationsData = getPhotos(PHOTO_COUNT);
-// renderingThumbnails(publicationsData);
-// addEventListenerThumbnail(publicationsData);
 
 addEventUploadForm();
 
