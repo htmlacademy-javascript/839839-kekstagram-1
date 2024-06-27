@@ -8,16 +8,13 @@ import {addEventListenerEffects} from './effect.js';
 import {showAlert} from './util.js';
 import {getData} from './api.js';
 
-getData()
-  .then((publicationsData) => {
-    renderingThumbnails(publicationsData);
-    addEventListenerThumbnail(publicationsData);
-  })
-  .catch(
-    (err) => {
-      showAlert(err.message);
-    }
-  );
+try {
+  const publicationsData = await getData();
+  renderingThumbnails(publicationsData);
+  addEventListenerThumbnail(publicationsData);
+} catch (err){
+  showAlert(err.message);
+}
 
 // const publicationsData = getPhotos(PHOTO_COUNT);
 // renderingThumbnails(publicationsData);
