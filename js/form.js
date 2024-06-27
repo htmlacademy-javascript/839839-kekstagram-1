@@ -1,11 +1,16 @@
-import {isKeydownEscape} from './util.js';
+import {isKeydownEscape, showAlert} from './util.js';
 import {resetEffects} from './effect.js';
+import {sendData} from './api.js';
 
 const MAX_HASHTAGS = 5;
 const ErrorText = {
   FORMAT_HASHTAG: 'Не правильная форма записи хештега',
   COUNT_VALIDATION: 'Не больше пяти хэш-тегов',
   UNIQUENESS_VALIDATION: 'Не уникальный хэш-тег'
+};
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикуем...'
 };
 
 const form = document.querySelector('.img-upload__form');
@@ -15,6 +20,7 @@ const textHashtag = form.querySelector('.text__hashtags');
 const buttonCancel = document.querySelector('#upload-cancel');
 const description = document.querySelector('.text__description');
 const body = document.querySelector('body');
+const buttonSubmit = document.querySelector('.img-upload__submit');
 
 const hashtagTest = /^#[a-zа-яё0-9]{1,19}$/i;
 
@@ -123,6 +129,22 @@ const onButtonCancelClick = () => {
 };
 
 /**
+ * Блокировка кнопки опубликовать
+ */
+const blockButtonSubmit = () => {
+  buttonSubmit.disabled = true;
+  buttonSubmit.textContent = SubmitButtonText.SENDING;
+};
+
+/**
+ * Разблокировка кнопки опубликовать
+ */
+const unblockButtonSubmit = () => {
+  buttonSubmit.disabled = false;
+  buttonSubmit.textContent = SubmitButtonText.IDLE;
+};
+
+/**
  * Добавить событие на форму
  */
 const addEventUploadForm = () => {
@@ -130,7 +152,16 @@ const addEventUploadForm = () => {
   buttonCancel.addEventListener('click', onButtonCancelClick);
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockButtonSubmit();
+      sendData(new FormData(form))
+        .then(hideModal)
+        .catch((err) => {
+          showAlert(err.message);
+        })
+        .finally(unblockButtonSubmit);
+    }
   });
 };
 
