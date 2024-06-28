@@ -19,18 +19,17 @@ const renderPopup = (popup) => {
     }
   }
 
-  successButton.addEventListener('click', () => {
-    closePopup();
-  });
-
-  document.addEventListener('keydown', onDocumentKeydown);
-
   const onOverlayClick = (evt) => {
     if (evt.target !== popup) {
       return;
     }
     closePopup();
   };
+
+  successButton.addEventListener('click', () => {
+    closePopup();
+  });
+  document.addEventListener('keydown', onDocumentKeydown);
   popup.addEventListener('click', onOverlayClick);
 };
 
