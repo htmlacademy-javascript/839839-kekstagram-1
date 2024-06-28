@@ -1,4 +1,5 @@
 import {isKeydownEscape, showAlert} from './util.js';
+import {initialScale} from './scale.js';
 import {resetEffects} from './effect.js';
 import {sendData} from './api.js';
 
@@ -87,6 +88,7 @@ const isInputFocus = () =>
  * Показать модальное окно
  */
 const showModal = () => {
+  initialScale();
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
