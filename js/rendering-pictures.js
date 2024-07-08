@@ -21,6 +21,8 @@ const getThumbnail = ({url, description, comments, likes, id}) => {
  * @param {Array} - массив миниатюр
  */
 const renderingThumbnails = (publications) => {
+  containerForPicture.querySelectorAll('.picture')
+    .forEach((element) => element.remove());
   const publicationListFragment = document.createDocumentFragment();
   publications.forEach((thumbnail) => {
     publicationListFragment.append(getThumbnail(thumbnail));
