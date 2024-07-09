@@ -8,7 +8,6 @@ const containerComment = document.querySelector('.social__comments');
 const comment = document.querySelector('.social__comment');
 const inputComment = document.querySelector('.social__footer-text');
 const bigPicture = document.querySelector('.big-picture');
-const overlay = document.querySelector('.overlay');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
@@ -103,18 +102,6 @@ const onClosePictureClick = (evt) => {
   closePicture();
 };
 
-/**
- * Обработчик для overlay
- * @param {Object} evt - объект события
- */
-const onOverlayClick = (evt) => {
-  const bigPicturePreview = evt.target.closest('.big-picture__preview');
-  if (bigPicturePreview) {
-    return;
-  }
-  closePicture();
-};
-
 function onDocumentKeydown(evt) {
   if (isKeydownEscape(evt)) {
     evt.preventDefault();
@@ -131,7 +118,6 @@ const addEventListenerThumbnail = (pictureData) => {
     openPicture(evt, pictureData);
   });
   buttonClose.addEventListener('click', onClosePictureClick);
-  overlay.addEventListener('click', onOverlayClick);
   inputComment.addEventListener('keydown', (evt) => {
     if (isKeydownEscape(evt)) {
       evt.stopPropagation();
