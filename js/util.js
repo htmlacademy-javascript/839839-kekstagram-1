@@ -1,15 +1,6 @@
-const NUMBER_COMMENTS = 5;
 const ALERT_SHOW_TIME = 5000;
 
 const isKeydownEscape = (evt) => (evt.key === 'Escape');
-
-const createShownComment = () => {
-  let shownComment = 0;
-  return () => {
-    shownComment += NUMBER_COMMENTS;
-    return shownComment;
-  };
-};
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -41,4 +32,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export {isKeydownEscape, createShownComment, showAlert, debounce};
+export {isKeydownEscape, showAlert, debounce};
