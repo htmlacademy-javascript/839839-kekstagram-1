@@ -1,6 +1,8 @@
-import {isKeydownEscape, showAlert} from './util.js';
+import {isKeydownEscape} from './util.js';
+import {initialScale} from './scale.js';
 import {resetEffects} from './effect.js';
 import {sendData} from './api.js';
+import {openSuccesPopup, openErrorPopup} from './popup.js';
 
 const MAX_HASHTAGS = 5;
 const ErrorText = {
@@ -87,6 +89,7 @@ const isInputFocus = () =>
  * Показать модальное окно
  */
 const showModal = () => {
+  initialScale();
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -157,9 +160,8 @@ const addEventUploadForm = () => {
       blockButtonSubmit();
       sendData(new FormData(form))
         .then(hideModal)
-        .catch((err) => {
-          showAlert(err.message);
-        })
+        .then(openSuccesPopup)
+        .catch(openErrorPopup)
         .finally(unblockButtonSubmit);
     }
   });

@@ -9,14 +9,16 @@ const buttonBigger = document.querySelector('.scale__control--bigger');
 const inputScale = document.querySelector('.scale__control--value');
 const imgPrevie = document.querySelector('.img-upload__preview > img');
 
-inputScale.value = '100%';
-
 /**
  * Изменение размера изображения
  */
 const resizePicture = (value) => {
-  value /= 100;
-  imgPrevie.style.transform = `scale(${value})`;
+  imgPrevie.style.transform = `scale(${value / 100})`;
+  inputScale.value = `${value}%`;
+};
+
+const initialScale = () => {
+  resizePicture(ScaleValue.MAX);
 };
 
 /**
@@ -28,7 +30,6 @@ const onButtonSmallerClick = () => {
     inputScale.value = ScaleValue.MIN;
   }
   resizePicture(inputScale.value);
-  inputScale.value += '%';
 };
 
 /**
@@ -40,7 +41,6 @@ const onButtonBiggerClick = () => {
     inputScale.value = ScaleValue.MAX;
   }
   resizePicture(inputScale.value);
-  inputScale.value += '%';
 };
 
 const addEventListenerButton = () => {
@@ -48,4 +48,4 @@ const addEventListenerButton = () => {
   buttonBigger.addEventListener('click', onButtonBiggerClick);
 };
 
-export {addEventListenerButton};
+export {addEventListenerButton, initialScale};
