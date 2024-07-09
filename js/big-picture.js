@@ -1,4 +1,6 @@
-import {isKeydownEscape, createShownComment} from './util.js';
+import {isKeydownEscape} from './util.js';
+
+const NUMBER_COMMENTS = 5;
 
 const picturesList = document.querySelector('.pictures');
 const buttonClose = document.querySelector('.big-picture__cancel');
@@ -10,6 +12,9 @@ const overlay = document.querySelector('.overlay');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
+
+let shownComment = 0;
+let photoСomments = [];
 
 /**
  * Заполение данными комментария
@@ -30,7 +35,8 @@ const showComment = ({avatar, name, message, id}) => {
  * @param {Array} comments - Массив комментариев
  * @param {Number} shownComment - Количество показываемых комментариев
  */
-const renderComments = (comments, shownComment) => {
+const renderComments = (comments) => {
+  shownComment += NUMBER_COMMENTS;
   if (comments.length <= shownComment) {
     commentsLoader.classList.add('hidden');
     shownComment = comments.length;
@@ -51,19 +57,14 @@ const renderComments = (comments, shownComment) => {
  * @param {Object} url, description, comments, likes - параметры изображения
  */
 const showBigPicture = ({url, description, comments, likes}) => {
-  const shownComment = createShownComment();
   document.querySelector('.big-picture__img img').src = url;
   document.querySelector('.social__caption').textContent = description;
   document.querySelector('.likes-count').textContent = likes;
-  renderComments(comments, shownComment());
+  renderComments(comments);
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-
-  commentsLoader.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    renderComments(comments, shownComment());
-  });
+  photoСomments = comments;
 };
 
 /**
@@ -81,10 +82,6 @@ const openPicture = (evt, publicationsData) => {
     (publication) => publication.id === +thumbnail.dataset.thumbnailId
   );
   showBigPicture(picture);
-/*   commentsLoader.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    renderComments(picture.comments, shownComment());
-  }); */
 };
 
 /**
@@ -94,6 +91,7 @@ const closePicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  shownComment = 0;
 };
 
 /**
@@ -138,6 +136,10 @@ const addEventListenerThumbnail = (pictureData) => {
     if (isKeydownEscape(evt)) {
       evt.stopPropagation();
     }
+  });
+  commentsLoader.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    renderComments(photoСomments);
   });
 };
 
