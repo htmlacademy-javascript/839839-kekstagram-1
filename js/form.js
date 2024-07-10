@@ -109,6 +109,7 @@ const hideModal = () => {
 
 /**
  * Обработчик для кнопки esc и проверка фокуса
+ * @param {Object} evt - объект события
  */
 function onDocumentKeydown(evt) {
   if (isKeydownEscape(evt) && !isInputFocus()) {
@@ -165,6 +166,11 @@ const addEventUploadForm = () => {
         .finally(unblockButtonSubmit);
     }
   });
+  // .addEventListener('keydown', (evt) => {
+  //   if (isKeydownEscape(evt) && document.querySelector('.error')) {
+  //     evt.stopPropagation();
+  //   }
+  // });
 };
 
 export {addEventUploadForm};
