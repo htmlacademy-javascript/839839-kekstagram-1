@@ -32,7 +32,6 @@ const showComment = ({avatar, name, message, id}) => {
 /**
  * Отрисовка комментариев
  * @param {Array} comments - Массив комментариев
- * @param {Number} shownComment - Количество показываемых комментариев
  */
 const renderComments = (comments) => {
   shownComment += NUMBER_COMMENTS;
