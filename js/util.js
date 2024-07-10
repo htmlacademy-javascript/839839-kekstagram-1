@@ -33,9 +33,6 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-/**
- * Функция
- */
 function debounce (callback, timeoutDelay = 500) {
   let timeoutId;
   return (...rest) => {
