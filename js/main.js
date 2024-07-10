@@ -6,6 +6,7 @@ import {addEventListenerEffects} from './effect.js';
 import {showAlert, debounce} from './util.js';
 import {getData} from './api.js';
 import {showFilter} from'./filter.js';
+import {addEventListenerFileChooser} from './picture-preview.js';
 
 try {
   const publicationsData = await getData();
@@ -17,6 +18,7 @@ try {
   showAlert(err.message);
 }
 
+addEventListenerFileChooser();
 addEventUploadForm();
 
 addEventListenerButton();
