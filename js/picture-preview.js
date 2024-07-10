@@ -4,7 +4,10 @@ const fileChooser = document.querySelector('.img-upload__input');
 const photoPreview = document.querySelector('.img-upload__preview img');
 const effectsPreview = document.querySelectorAll('.effects__preview');
 
-const addEventListenerFileChooser = () => {
+/**
+ * Добавить событие по выбору файла
+ */
+const addEventListenerFileChooser = () =>
   fileChooser.addEventListener('change', () => {
     const file = fileChooser.files[0];
     const fileName = file.name.toLowerCase();
@@ -16,6 +19,5 @@ const addEventListenerFileChooser = () => {
       });
     }
   });
-};
 
 export {addEventListenerFileChooser};
