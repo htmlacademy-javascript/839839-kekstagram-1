@@ -1,4 +1,5 @@
 import {isKeydownEscape} from './util.js';
+import {onFormDocumentKeydown} from './form.js';
 
 const successPopup = document.querySelector('#success').content.querySelector('.success');
 const errorPopup = document.querySelector('#error').content.querySelector('.error');
@@ -17,6 +18,7 @@ const renderPopup = (popup) => {
   const closePopup = () => {
     popup.remove();
     document.removeEventListener('keydown', onPopupDocumentKeydown);
+    document.addEventListener('keydown', onFormDocumentKeydown);
   };
 
   /**
@@ -60,6 +62,7 @@ const openSuccesPopup = () => {
 const openErrorPopup = () => {
   const cloneErrorPopup = errorPopup.cloneNode(true);
   renderPopup(cloneErrorPopup);
+  document.removeEventListener('keydown', onFormDocumentKeydown);
 };
 
 export {openSuccesPopup, openErrorPopup};
