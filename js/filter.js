@@ -13,7 +13,7 @@ let currentFilter = Filter.DEFAULT;
 const sortByDiscussion = (pictureA, pictureB) =>
   pictureB.comments.length - pictureA.comments.length;
 
-const sortRamdom = () => Math.random() - 0.5;
+const sortRandom = () => Math.random() - 0.5;
 
 /**
  * Сортировка изображений
@@ -25,7 +25,7 @@ const filterPicture = (data) => {
     case Filter.DISCUSSED:
       return data.slice().sort(sortByDiscussion);
     case Filter.RANDOM:
-      return data.slice().sort(sortRamdom).slice(0, PICTURES_COUNT);
+      return data.slice().sort(sortRandom).slice(0, PICTURES_COUNT);
     default:
       return data;
   }
