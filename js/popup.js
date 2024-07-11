@@ -16,13 +16,13 @@ const renderPopup = (popup) => {
    */
   const closePopup = () => {
     popup.remove();
-    document.removeEventListener('keydown', onDocumentKeydown);
+    document.removeEventListener('keydown', onPopupDocumentKeydown);
   };
 
   /**
    * Обработчик нажатия ESC
    */
-  function onDocumentKeydown (evt) {
+  function onPopupDocumentKeydown (evt) {
     if (isKeydownEscape(evt)) {
       evt.preventDefault();
       closePopup();
@@ -42,7 +42,7 @@ const renderPopup = (popup) => {
   successButton.addEventListener('click', () => {
     closePopup();
   });
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onPopupDocumentKeydown);
   popup.addEventListener('click', onOverlayClick);
 };
 
