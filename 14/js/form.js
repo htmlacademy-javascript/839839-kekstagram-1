@@ -92,7 +92,7 @@ const showModal = () => {
   initialScale();
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onFormDocumentKeydown);
 };
 
 /**
@@ -104,14 +104,14 @@ const hideModal = () => {
   resetEffects();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', onFormDocumentKeydown);
 };
 
 /**
  * Обработчик для кнопки esc и проверка фокуса
  * @param {Object} evt - объект события
  */
-function onDocumentKeydown(evt) {
+function onFormDocumentKeydown(evt) {
   if (isKeydownEscape(evt) && !isInputFocus()) {
     evt.preventDefault();
     hideModal();
@@ -166,11 +166,6 @@ const addEventUploadForm = () => {
         .finally(unblockButtonSubmit);
     }
   });
-  // .addEventListener('keydown', (evt) => {
-  //   if (isKeydownEscape(evt) && document.querySelector('.error')) {
-  //     evt.stopPropagation();
-  //   }
-  // });
 };
 
-export {addEventUploadForm};
+export {addEventUploadForm, onFormDocumentKeydown};
